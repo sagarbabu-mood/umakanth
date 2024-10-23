@@ -1,0 +1,21 @@
+GET http://localhost:5001/api/news
+
+
+###
+POST http://localhost:5001/login/
+Content-Type: application/json
+
+{
+    "username" : "chintu2002",
+    "password" : "Chintu2002"
+}
+
+###
+POST https://localhost:5001/signup
+Content-Type: 
+
+{
+    "username" : "asdf23",
+    "password" : "asdf23",
+    "email" : "asdf@gmail.com"
+}

@@ -1,0 +1,143 @@
+/* General styles for the news container */
+.news-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+    padding: 20px;
+    max-width: 1400px; /* Increased max width for larger screens */
+    margin: auto; /* Center the container */
+}
+
+/* Styles for the individual news cards */
+.card {
+    position: relative; /* Set position to relative for absolute positioning of icons */
+    background-color: #fff; /* White background for cards */
+    border-radius: 12px; /* Slightly more rounded corners */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15); /* More prominent shadow */
+    margin: 20px 0; /* Increased space between cards */
+    padding: 25px; /* Increased padding inside the card */
+    width: 100%; /* Full width of the container */
+    max-width: 800px; /* Larger max width for each card */
+    transition: transform 0.3s, box-shadow 0.3s; /* Smooth transition for hover */
+    display: flex; /* Use flex to align items */
+    flex-direction: column; /* Stack items vertically */
+    justify-content: space-between; /* Space between items */
+}
+
+.card:hover {
+    transform: translateY(-10px); /* Lift the card more on hover */
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.2); /* Darker shadow on hover */
+}
+
+/* Ensure the image has a consistent and larger height */
+.card img {
+    width: 100%; /* Image takes full width of card */
+    height: 350px; /* Increased image height */
+    object-fit: cover; /* Cover the area while maintaining aspect ratio */
+    border-radius: 12px 12px 0 0; /* Rounded top corners */
+}
+
+/* Ensure the headline is fully displayed */
+.card h3 {
+    font-size: 1.8rem; /* Larger font size for headline */
+    margin: 15px 0; /* Larger margin above and below the headline */
+    line-height: 1.2; /* Adjust line height for readability */
+}
+
+/* Ensure the summary text is fully displayed */
+.card p {
+    font-size: 1.1rem; /* Slightly larger font size for summary */
+    color: #666; /* Gray color for summary text */
+    margin: 0 0 15px 0; /* Larger margin below the paragraph */
+    line-height: 1.6; /* Adjust line height for better readability */
+}
+
+/* Styles for the 'View More' hyperlink and buttons */
+.link-container {
+    display: flex;
+    align-items: center; /* Center vertically */
+    margin-top: 10px; /* Space above the link */
+}
+
+/* Link styles */
+.card a {
+    display: inline; /* Make the link inline */
+    padding: 0; /* Remove padding */
+    color: #007bff; /* Blue color for link */
+    text-decoration: underline; /* Underline the link */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-weight: bold; /* Make the link bold */
+    transition: color 0.2s; /* Animation for hover effect */
+    margin-right: 10px; /* Space between link and buttons */
+}
+
+.card a:hover {
+    color: #0056b3; /* Darker blue on hover */
+}
+
+/* Button styles */
+button {
+    margin-left: 10px; /* Space between the link and buttons */
+    padding: 8px 12px; /* Padding for buttons */
+    border: none; /* Remove default border */
+    border-radius: 4px; /* Rounded corners for buttons */
+    background-color: #007bff; /* Button background color */
+    color: white; /* Button text color */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.2s, transform 0.2s; /* Transition for hover effect */
+}
+
+button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    transform: scale(1.05); /* Slight scale effect on hover */
+}
+
+button:disabled {
+    background-color: #ccc; /* Disabled button color */
+    cursor: not-allowed; /* Change cursor for disabled state */
+}
+
+/* Media Queries for Responsive Design */
+
+/* Mobile devices */
+@media (max-width: 600px) {
+    .card {
+        padding: 15px; /* Reduce padding on smaller screens */
+        height: auto; /* Allow height to adjust for content */
+    }
+
+    .card img {
+        height: 200px; /* Smaller image height for mobile */
+    }
+
+    .card h3 {
+        font-size: 1.4rem; /* Smaller headline font size */
+    }
+
+    .card p {
+        font-size: 1rem; /* Smaller summary font size */
+    }
+}
+
+/* Tablets */
+@media (min-width: 601px) and (max-width: 1024px) {
+    .card {
+        max-width: 90%; /* Increase card width on tablets */
+    }
+
+    .card h3 {
+        font-size: 1.5rem; /* Medium headline font size */
+    }
+
+    .card p {
+        font-size: 1.05rem; /* Medium summary font size */
+    }
+}
+
+/* Laptops and larger screens */
+@media (min-width: 1025px) {
+    .card {
+        max-width: 800px; /* Keep larger max width for larger screens */
+    }
+}
