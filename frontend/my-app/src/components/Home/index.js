@@ -38,7 +38,7 @@ const Home = () => {
               src="https://img.freepik.com/free-vector/news-concept-landing-page_52683-20167.jpg" 
               alt="News Illustration" 
               className="image" 
-              onError={(e) => { e.target.onerror = null; e.target.src = "fallback-image-url.jpg"; }} // Handle image error
+              onError={(e) => { e.target.onerror = null; e.target.src = "fallback-image-url.jpg"; }} // Ensure this URL is valid
             />
           </div>
         </div>

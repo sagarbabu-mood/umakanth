@@ -4,6 +4,7 @@ const { open } = require('sqlite');
 const sqlite3 = require('sqlite3');
 const bcrypt = require('bcrypt');
 const path = require('path');
+const fetch = require('node-fetch'); // Ensure node-fetch is included
 const app = express();
 
 app.use(cors());

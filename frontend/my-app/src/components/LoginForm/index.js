@@ -15,7 +15,7 @@ const LoginForm = () => {
         const userDetails = { username, password };
         console.log('Sending login details:', userDetails);
         
-        const url = "http://localhost:5001/login"; // Removed trailing slash
+        const url = process.env.REACT_APP_BACKEND_URL || "http://localhost:5001/login"; // Using environment variable
         const options = {
             method: 'POST',
             headers: {

@@ -52,9 +52,11 @@ class Signup extends Component {
             if (response.ok) {
                 console.log(data.message);
                 // Optionally, navigate to another page or show a success message
+                // For example, you can navigate to the login page after successful signup:
+                this.props.history.push('/login'); // Ensure you have routing set up
             } else {
-                console.log(data.error);
-                this.onSubmitFailure(data.error);  // Use dynamic error message
+                console.log(data.message); // Updated to use data.message instead
+                this.onSubmitFailure(data.message);  // Use dynamic error message
             }
 
         } catch (error) {
@@ -140,7 +142,7 @@ class Signup extends Component {
                         <div className='input-container'>{this.renderUsernameField()}</div>
                         <div className='input-container'>{this.renderEmailField()}</div>
                         <div className='input-container'>{this.renderPasswordField()}</div>
-                        <button className='signup-button' type='submit'>SignUp</button>
+                        <button className='signup-button' type='submit'>Sign Up</button>
                         {showSubmitError && <p className='error' aria-live="assertive">{errorMessage}</p>} {/* Dynamic error message */}
                     </div>
                 </form>

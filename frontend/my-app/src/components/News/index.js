@@ -10,7 +10,8 @@ function News() {
     useEffect(() => {
         const fetchNews = async () => {
             try {
-                const response = await fetch('http://localhost:5001/api/news'); // URL of your Node.js API
+                const url = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001/api/news'; // Use environment variable
+                const response = await fetch(url); // URL of your Node.js API
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
@@ -19,7 +20,7 @@ function News() {
                 setArticles(filteredArticles);
             } catch (err) {
                 setError('Error fetching news');
-                console.error(err);
+                console.error('Fetch error:', err); // Detailed error logging
             } finally {
                 setLoading(false);
             }
@@ -46,7 +47,7 @@ function News() {
         </div>
     );
 
-    if (error) return <div>{error}</div>;
+    if (error) return <div role="alert" aria-live="assertive">{error}</div>; // Accessible error message
     if (articles.length === 0) return <div>No articles available</div>;
 
     const currentArticle = articles[currentIndex];
