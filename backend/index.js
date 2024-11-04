@@ -1,7 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const { open } = require('sqlite');
-const sqlite3 = require('sqlite3');
+const Database = require('better-sqlite3');
 const bcrypt = require('bcrypt');
 const path = require('path');
 const fetch = require('node-fetch'); // Ensure node-fetch is included
@@ -11,73 +10,72 @@ app.use(cors());
 app.use(express.json());
 
 const dbPath = path.join(__dirname, "addusers.db");
-let db = null;
+let db;
 
-const initializeDBAndServer = async () => {
+// Initialize Database
+const initializeDB = () => {
     try {
-        db = await open({
-            filename: dbPath,
-            driver: sqlite3.Database,
-        });
-        app.listen(5001, () => {
-            console.log("Server Running at http://localhost:5001/");
-        });
-    } catch (e) {
-        console.error(`DB Error: ${e.message}`);
+        db = new Database(dbPath);
+        console.log("Connected to the SQLite database.");
+    } catch (error) {
+        console.error(`DB Error: ${error.message}`);
         process.exit(1);
     }
 };
 
-initializeDBAndServer();
+initializeDB();
+
+// Start Server
+app.listen(5001, () => {
+    console.log("Server running at http://localhost:5001/");
+});
 
 // Signup Route
-app.post("/signup", async (request, response) => {
+app.post("/signup", (req, res) => {
     try {
-        const { username, email, password } = request.body;
+        const { username, email, password } = req.body;
 
-        const hashedPassword = await bcrypt.hash(password, 10);
         const selectUserQuery = `SELECT * FROM users WHERE username = ?;`;
-        const dbUser = await db.get(selectUserQuery, [username]);
+        const dbUser = db.prepare(selectUserQuery).get(username);
 
         if (!dbUser) {
+            const hashedPassword = bcrypt.hashSync(password, 10);
             const addUserQuery = `
-            INSERT INTO 
-                users (username, password, email)
-            VALUES
-                (?, ?, ?);`;
-            await db.run(addUserQuery, [username, hashedPassword, email]);
-            response.status(201).send("User added successfully");
+                INSERT INTO users (username, password, email)
+                VALUES (?, ?, ?);`;
+            db.prepare(addUserQuery).run(username, hashedPassword, email);
+            res.status(201).send("User added successfully");
         } else {
-            response.status(400).send("User already exists");
+            res.status(400).send("User already exists");
         }
     } catch (error) {
         console.error("Error during signup:", error);
-        response.status(500).send("Internal Server Error");
+        res.status(500).send("Internal Server Error");
     }
 });
 
 // Login Route
-app.post("/login", async (request, response) => {
-    const { username, password } = request.body;
+app.post("/login", (req, res) => {
+    const { username, password } = req.body;
 
     try {
         const selectUserQuery = `SELECT * FROM users WHERE username = ?;`;
-        const dbUser = await db.get(selectUserQuery, [username]);
+        const dbUser = db.prepare(selectUserQuery).get(username);
 
         if (!dbUser) {
-            return response.status(400).json({ message: "Invalid User!" });
+            return res.status(400).json({ message: "Invalid User!" });
         }
 
-        const isPasswordMatched = await bcrypt.compare(password, dbUser.password);
+        const isPasswordMatched = bcrypt.compareSync(password, dbUser.password);
 
         if (isPasswordMatched) {
-            return response.status(200).json({ message: "Login Successful!" });
+            return res.status(200).json({ message: "Login Successful!" });
         } else {
-            return response.status(400).json({ message: "Invalid Password!" });
+            return res.status(400).json({ message: "Invalid Password!" });
         }
     } catch (error) {
         console.error("Error during login:", error);
-        return response.status(500).json({ message: "Internal Server Error" });
+        res.status(500).json({ message: "Internal Server Error" });
     }
 });
 
